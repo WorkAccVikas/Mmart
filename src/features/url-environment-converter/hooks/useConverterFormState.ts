@@ -30,7 +30,7 @@ export const EMPTY_CONVERTER_FORM_VALUES = {
 } as const satisfies IConverterFormValues;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const isDev = import.meta.env.DEV;
+// const isDev = import.meta.env.DEV;
 
 // const CONVERTER_FORM_VALUES = isDev
 //   ? DEFAULT_CONVERTER_FORM_VALUES

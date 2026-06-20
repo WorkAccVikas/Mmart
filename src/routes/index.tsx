@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import { lazy } from 'react';
 
-const HorseA = lazy(() => import('@/features/horse/pages/HorseA.page'));
+// const HorseA = lazy(() => import('@/features/horse/pages/HorseA.page'));
 const Temp = lazy(() => import('@/temp'));
 const UrlEnvironmentConverterPage = lazy(
   () =>
