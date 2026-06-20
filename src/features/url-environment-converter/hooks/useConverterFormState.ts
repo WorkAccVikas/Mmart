@@ -29,11 +29,14 @@ export const EMPTY_CONVERTER_FORM_VALUES = {
   secondBasePath: "",
 } as const satisfies IConverterFormValues;
 
-const isDev = !import.meta.env.DEV;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const isDev = import.meta.env.DEV;
 
-const CONVERTER_FORM_VALUES = isDev
-  ? DEFAULT_CONVERTER_FORM_VALUES
-  : EMPTY_CONVERTER_FORM_VALUES;
+// const CONVERTER_FORM_VALUES = isDev
+//   ? DEFAULT_CONVERTER_FORM_VALUES
+//   : EMPTY_CONVERTER_FORM_VALUES;
+
+const CONVERTER_FORM_VALUES = EMPTY_CONVERTER_FORM_VALUES;
 
 /**
  * Owns the form's local UI state (mode + every field). Resets the URL
@@ -44,13 +47,13 @@ const CONVERTER_FORM_VALUES = isDev
 export function useConverterFormState() {
   const [mode, setMode] = useState<ConversionMode>(CONVERTER_FORM_VALUES.mode);
   const [url, setUrl] = useState(CONVERTER_FORM_VALUES.url);
-  const [base, setBase] = useState(CONVERTER_FORM_VALUES.base);
-  const [port, setPort] = useState(CONVERTER_FORM_VALUES.port);
-  const [domain, setDomain] = useState(CONVERTER_FORM_VALUES.domain);
-  const [basePathIncluded, setBasePathIncluded] = useState(
+  const [base, setBase] = useState<string>(CONVERTER_FORM_VALUES.base);
+  const [port, setPort] = useState<string>(CONVERTER_FORM_VALUES.port);
+  const [domain, setDomain] = useState<string>(CONVERTER_FORM_VALUES.domain);
+  const [basePathIncluded, setBasePathIncluded] = useState<boolean>(
     CONVERTER_FORM_VALUES.basePathIncluded,
   );
-  const [secondBasePath, setSecondBasePath] = useState(
+  const [secondBasePath, setSecondBasePath] = useState<string>(
     CONVERTER_FORM_VALUES.secondBasePath,
   );
 
