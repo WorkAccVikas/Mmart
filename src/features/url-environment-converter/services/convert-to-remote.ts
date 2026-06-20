@@ -1,18 +1,19 @@
-import { UrlConversionError } from '../types/conversion-errors';
+import { UrlConversionError } from "../types/conversion-errors";
 import type {
   IConversionResult,
   IToRemoteOptions,
-} from '../types/conversion.types';
-import { buildPathname } from '../utils/build-pathname';
-import { parseQueryParams } from '../utils/parse-query-params';
-import { parseSourceUrl } from '../utils/parse-source-url';
-import { resolveBasePath } from '../utils/resolve-base-path';
+} from "../types/conversion.types";
+import { buildPathname } from "../utils/build-pathname";
+import { hasValidProtocol } from "../utils/has-valid-protocol";
+import { parseQueryParams } from "../utils/parse-query-params";
+import { parseSourceUrl } from "../utils/parse-source-url";
+import { resolveBasePath } from "../utils/resolve-base-path";
 
 /** http://localhost:PORT/base/rest?q=1  ->  https://domain.com/base/rest?q=1 */
 export function convertToRemote({
   url,
   domain,
-  protocol = 'https',
+  protocol = "https",
   base,
   basePathIncluded = true,
   secondBasePath,
@@ -21,19 +22,19 @@ export function convertToRemote({
   if (!cleanDomain) {
     throw new UrlConversionError(
       'domain is required, e.g. "abc.com" (no protocol).',
-      'MISSING_DOMAIN',
+      "MISSING_DOMAIN",
     );
   }
-  if (!/^https?$/.test(protocol)) {
+  if (!hasValidProtocol(url, "http")) {
     throw new UrlConversionError(
-      `Invalid protocol: "${protocol}". Use "http" or "https".`,
-      'INVALID_PROTOCOL',
+      `Invalid Protocol: You must use http.`,
+      "WRONG_PROTOCOL",
     );
   }
 
   const { parsed, originalBasePath, remainingSegments } = parseSourceUrl(
     url,
-    'http',
+    "http",
   );
 
   const { basePath, warning } = resolveBasePath({
@@ -54,13 +55,13 @@ export function convertToRemote({
     originalBasePath,
     pathParams: remainingSegments,
     queryParams,
-    hash: parsed.hash || '',
+    hash: parsed.hash || "",
     warning,
   };
 }
 
-const sanitizeDomain = (domain: string = ''): string =>
+const sanitizeDomain = (domain: string = ""): string =>
   String(domain)
     .trim()
-    .replace(/^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//, '') // strip any accidental protocol
-    .replace(/\/+$/, ''); // strip trailing slash
+    .replace(/^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//, "") // strip any accidental protocol
+    .replace(/\/+$/, ""); // strip trailing slash

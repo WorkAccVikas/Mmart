@@ -1,9 +1,11 @@
+import type { TProtocol } from "./url-converter";
+
 export type TQueryParams = Record<string, string | string[]>;
 
 export interface IConversionResult {
   /** Fully rebuilt URL string */
   url: string;
-  protocol: 'http' | 'https';
+  protocol: "http" | "https";
   /** host[:port] */
   host: string;
   /** Present only for toLocalhost results */
@@ -39,7 +41,7 @@ export interface IToRemoteOptions extends IBasePathOptions {
   /** Target domain, no protocol, e.g. "abc.com" */
   domain: string;
   /** Defaults to "https" */
-  protocol?: 'http' | 'https';
+  protocol?: TProtocol;
 }
 
 export interface IParsedSource {

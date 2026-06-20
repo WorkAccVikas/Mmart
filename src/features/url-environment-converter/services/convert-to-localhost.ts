@@ -1,13 +1,14 @@
-import { UrlConversionError } from '../types/conversion-errors';
+import { UrlConversionError } from "../types/conversion-errors";
 import type {
   IConversionResult,
   IToLocalhostOptions,
-} from '../types/conversion.types';
-import { buildPathname } from '../utils/build-pathname';
-import { parseQueryParams } from '../utils/parse-query-params';
-import { parseSourceUrl } from '../utils/parse-source-url';
-import { resolveBasePath } from '../utils/resolve-base-path';
-import { isValidPort } from '../utils/validate-port';
+} from "../types/conversion.types";
+import { buildPathname } from "../utils/build-pathname";
+import { hasValidProtocol } from "../utils/has-valid-protocol";
+import { parseQueryParams } from "../utils/parse-query-params";
+import { parseSourceUrl } from "../utils/parse-source-url";
+import { resolveBasePath } from "../utils/resolve-base-path";
+import { isValidPort } from "../utils/validate-port";
 
 /** https://domain.com/base/rest?q=1  ->  http://localhost:PORT/base/rest?q=1 */
 export function convertToLocalhost({
@@ -20,13 +21,20 @@ export function convertToLocalhost({
   if (!isValidPort(port)) {
     throw new UrlConversionError(
       `Invalid port: "${port}". Must be an integer between 1 and 65535.`,
-      'INVALID_PORT',
+      "INVALID_PORT",
+    );
+  }
+
+  if (!hasValidProtocol(url, "https")) {
+    throw new UrlConversionError(
+      `Invalid Protocol: You must use https.`,
+      "WRONG_PROTOCOL",
     );
   }
 
   const { parsed, originalBasePath, remainingSegments } = parseSourceUrl(
     url,
-    'https',
+    "https",
   );
 
   const { basePath, warning } = resolveBasePath({
@@ -41,14 +49,14 @@ export function convertToLocalhost({
 
   return {
     url: `http://localhost:${port}${pathname}${parsed.search}${parsed.hash}`,
-    protocol: 'http',
+    protocol: "http",
     host: `localhost:${port}`,
     port: Number(port),
     basePath,
     originalBasePath,
     pathParams: remainingSegments,
     queryParams,
-    hash: parsed.hash || '',
+    hash: parsed.hash || "",
     warning,
   };
 }
