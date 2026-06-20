@@ -4,7 +4,7 @@ import type {
   IConverterFormValues,
 } from "../types/url-converter";
 
-const DEFAULT_URL_BY_MODE: Record<ConversionMode, string> = {
+export const DEFAULT_URL_BY_MODE: Record<ConversionMode, string> = {
   toLocalhost: "https://abc.com/motor/quotes?enquire=13&token=sses",
   toRemote: "http://localhost:5173/motor/quotes?enquire=13&token=sses",
 };
@@ -46,7 +46,7 @@ const CONVERTER_FORM_VALUES = EMPTY_CONVERTER_FORM_VALUES;
  */
 export function useConverterFormState() {
   const [mode, setMode] = useState<ConversionMode>(CONVERTER_FORM_VALUES.mode);
-  const [url, setUrl] = useState(CONVERTER_FORM_VALUES.url);
+  const [url, setUrl] = useState<string>(CONVERTER_FORM_VALUES.url);
   const [base, setBase] = useState<string>(CONVERTER_FORM_VALUES.base);
   const [port, setPort] = useState<string>(CONVERTER_FORM_VALUES.port);
   const [domain, setDomain] = useState<string>(CONVERTER_FORM_VALUES.domain);

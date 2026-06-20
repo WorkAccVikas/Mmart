@@ -3,8 +3,7 @@ import { useTheme } from "../useTheme";
 import { Moon, Sun } from "lucide-react";
 
 function ThemeToggle() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { theme, resolvedTheme, setTheme, toggleTheme } = useTheme();
+  const { resolvedTheme, toggleTheme } = useTheme();
 
   const ThemeIcon = resolvedTheme === "dark" ? Sun : Moon;
 

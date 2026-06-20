@@ -8,7 +8,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useUrlEnvironmentConverter } from "../hooks/useUrlEnvironmentConverter";
-import { useConverterFormState } from "../hooks/useConverterFormState";
+import {
+  DEFAULT_URL_BY_MODE,
+  useConverterFormState,
+} from "../hooks/useConverterFormState";
 import { ModeToggle } from "../components/ModeToggle";
 import { CopyableUrlField } from "./CopyableUrlField";
 import { ConverterOptionsForm } from "../forms/ConverterOptionsForm";
@@ -83,7 +86,7 @@ export function UrlConverterCard() {
           }
           value={form.url}
           onChange={form.setUrl}
-          placeholder="https://abc.com/motor/quotes"
+          placeholder={DEFAULT_URL_BY_MODE[form.mode]}
         />
 
         <ConverterOptionsForm

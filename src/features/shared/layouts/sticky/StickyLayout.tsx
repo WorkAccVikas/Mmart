@@ -26,7 +26,7 @@ export function StickyLayout({ children }: StickyLayoutProps) {
   let bottom: ReactNode = null;
 
   Children.forEach(children, (child) => {
-    if (!isValidElement(child)) return;
+    if (!isValidElement<SlotProps>(child)) return;
 
     if (child.type === Top) {
       top = child.props.children;
