@@ -4,22 +4,22 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { useUrlEnvironmentConverter } from "../hooks/useUrlEnvironmentConverter";
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { useUrlEnvironmentConverter } from '../hooks/useUrlEnvironmentConverter';
 import {
   DEFAULT_URL_BY_MODE,
   useConverterFormState,
-} from "../hooks/useConverterFormState";
-import { ModeToggle } from "../components/ModeToggle";
-import { CopyableUrlField } from "./CopyableUrlField";
-import { ConverterOptionsForm } from "../forms/ConverterOptionsForm";
-import { ResultPanel } from "../components/ResultPanel";
-import { useState } from "react";
-import { Settings2 } from "lucide-react";
-import { QueryParamsDialog } from "./QueryParamsDialog";
-import type { TQueryParams } from "../types/conversion.types";
+} from '../hooks/useConverterFormState';
+import { ModeToggle } from '../components/ModeToggle';
+import { CopyableUrlField } from './CopyableUrlField';
+import { ConverterOptionsForm } from '../forms/ConverterOptionsForm';
+import { ResultPanel } from '../components/ResultPanel';
+import { useState } from 'react';
+import { Settings2 } from 'lucide-react';
+import { QueryParamsDialog } from './QueryParamsDialog';
+import type { TQueryParams } from '../types/conversion.types';
 
 /**
  * Composition root for the URL environment converter.
@@ -28,9 +28,15 @@ import type { TQueryParams } from "../types/conversion.types";
  * and lays out the pieces.
  */
 export function UrlConverterCard() {
-  const { toLocalhost, toRemote, result, error, handleChangeQueryParams } =
-    useUrlEnvironmentConverter();
-  const form = useConverterFormState();
+  const {
+    toLocalhost,
+    toRemote,
+    result,
+    error,
+    handleChangeQueryParams,
+    reset,
+  } = useUrlEnvironmentConverter();
+  const form = useConverterFormState(reset);
 
   const [isQueryParamsDialogOpen, setIsQueryParamsDialogOpen] = useState(false);
 
@@ -39,7 +45,7 @@ export function UrlConverterCard() {
   );
 
   function handleConvert() {
-    if (form.mode === "toLocalhost") {
+    if (form.mode === 'toLocalhost') {
       toLocalhost({
         url: form.url,
         port: form.port,
@@ -80,9 +86,9 @@ export function UrlConverterCard() {
         <CopyableUrlField
           id="source-url"
           label={
-            form.mode === "toLocalhost"
-              ? "Source URL (https)"
-              : "Source URL (localhost)"
+            form.mode === 'toLocalhost'
+              ? 'Source URL (https)'
+              : 'Source URL (localhost)'
           }
           value={form.url}
           onChange={form.setUrl}

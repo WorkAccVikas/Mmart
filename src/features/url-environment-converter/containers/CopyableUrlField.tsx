@@ -1,21 +1,21 @@
-import { type ChangeEvent } from "react";
-import { Check, Copy, ExternalLink } from "lucide-react";
+import { type ChangeEvent } from 'react';
+import { Check, Copy, ExternalLink } from 'lucide-react';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useClipboard } from "@/features/shared/hooks/useClipboard/useClipboard";
+} from '@/components/ui/tooltip';
+import { AppInput } from '@/components/form/ui/input/AppInput';
+import { useClipboard } from '@/features/shared/hooks/useClipboard/useClipboard';
 
 function isOpenableUrl(value: string): boolean {
   try {
     const parsed = new URL(value);
-    return parsed.protocol === "http:" || parsed.protocol === "https:";
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
   } catch {
     return false;
   }
@@ -48,11 +48,11 @@ export function CopyableUrlField({
   const canOpen = isOpenableUrl(value);
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    onChange?.(event.target.value);
+    onChange?.(event.target.value.toLowerCase());
   }
 
   return (
-    <div className={cn("flex flex-col gap-1.5", className)}>
+    <div className={cn('flex flex-col gap-1.5', className)}>
       <Label
         htmlFor={id}
         className="text-[0.8125rem] font-medium text-muted-foreground"
@@ -61,7 +61,7 @@ export function CopyableUrlField({
       </Label>
 
       <div className="relative">
-        <Input
+        <AppInput
           id={id}
           value={value}
           placeholder={placeholder}
@@ -69,8 +69,8 @@ export function CopyableUrlField({
           onChange={onChange ? handleChange : undefined}
           spellCheck={false}
           className={cn(
-            "h-10 truncate pr-[5.25rem] font-mono text-[0.8125rem] sm:text-sm",
-            readOnly && "bg-muted/40",
+            'h-10 truncate pr-[5.25rem] font-mono text-[0.8125rem] sm:text-sm',
+            readOnly && 'bg-muted/40',
           )}
         />
 
@@ -94,7 +94,7 @@ export function CopyableUrlField({
               </Button>
             </TooltipTrigger>
             <TooltipContent side="top">
-              {isCopied ? "Copied" : "Copy URL"}
+              {isCopied ? 'Copied' : 'Copy URL'}
             </TooltipContent>
           </Tooltip>
 
@@ -106,7 +106,7 @@ export function CopyableUrlField({
                 variant="ghost"
                 className="h-7 w-7 text-muted-foreground hover:text-foreground"
                 onClick={() =>
-                  window.open(value, "_blank", "noopener,noreferrer")
+                  window.open(value, '_blank', 'noopener,noreferrer')
                 }
                 disabled={!canOpen}
                 aria-label="Open URL in new tab"

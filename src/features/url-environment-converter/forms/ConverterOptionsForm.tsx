@@ -1,7 +1,7 @@
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import type { ConversionMode } from "../types/url-converter";
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { AppInput } from '@/components/form/ui/input/AppInput';
+import type { ConversionMode } from '../types/url-converter';
 
 interface ConverterOptionsFormProps {
   mode: ConversionMode;
@@ -42,19 +42,19 @@ export function ConverterOptionsForm({
             htmlFor="base"
             className="text-[0.8125rem] font-medium text-muted-foreground"
           >
-            Base path{" "}
+            Base path{' '}
             <span className="text-muted-foreground/70">(optional)</span>
           </Label>
-          <Input
+          <AppInput
             id="base"
             value={base}
-            onChange={(e) => onBaseChange(e.target.value)}
+            onChange={(e) => onBaseChange(e.target.value.toLowerCase())}
             placeholder="motor"
             className="h-10 font-mono text-sm"
           />
         </div>
 
-        {mode === "toLocalhost" ? (
+        {mode === 'toLocalhost' ? (
           <div className="flex flex-col gap-1.5">
             <Label
               htmlFor="port"
@@ -62,10 +62,10 @@ export function ConverterOptionsForm({
             >
               Port <span className="text-muted-foreground/70">(required)</span>
             </Label>
-            <Input
+            <AppInput
               id="port"
               value={port}
-              onChange={(e) => onPortChange(e.target.value)}
+              onChange={(e) => onPortChange(e.target.value.toLowerCase())}
               placeholder="5173"
               inputMode="numeric"
               className="h-10 font-mono text-sm"
@@ -77,15 +77,15 @@ export function ConverterOptionsForm({
               htmlFor="domain"
               className="text-[0.8125rem] font-medium text-muted-foreground"
             >
-              Domain{" "}
+              Domain{' '}
               <span className="text-muted-foreground/70">
                 (required, no protocol)
               </span>
             </Label>
-            <Input
+            <AppInput
               id="domain"
               value={domain}
-              onChange={(e) => onDomainChange(e.target.value)}
+              onChange={(e) => onDomainChange(e.target.value.toLowerCase())}
               placeholder="abc.com"
               className="h-10 font-mono text-sm"
             />
@@ -110,9 +110,11 @@ export function ConverterOptionsForm({
           </Label>
 
           {!basePathIncluded && (
-            <Input
+            <AppInput
               value={secondBasePath}
-              onChange={(e) => onSecondBasePathChange(e.target.value)}
+              onChange={(e) =>
+                onSecondBasePathChange(e.target.value.toLowerCase())
+              }
               placeholder="2nd base path"
               className="h-9 min-w-[10rem] flex-1 font-mono text-sm"
             />

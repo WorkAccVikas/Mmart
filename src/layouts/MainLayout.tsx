@@ -13,7 +13,7 @@ export default function MainLayout() {
         </StickyTop>
 
         {/* Main */}
-        <main className="flex-1 p-4">
+        <main className="flex-1 p-4 grid">
           <Outlet />
         </main>
 

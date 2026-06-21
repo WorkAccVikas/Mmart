@@ -16,7 +16,11 @@ export const resolveBasePath = ({
   secondBasePath,
   expectedBase,
 }: IResolveBasePathArgs): IResolvedBasePath => {
-  if (basePathIncluded) {
+  if (
+    basePathIncluded ||
+    !expectedBase ||
+    originalBasePath.toLowerCase() !== expectedBase.toLowerCase()
+  ) {
     const cleanExpected = sanitizeSegment(expectedBase);
     const warning =
       cleanExpected &&

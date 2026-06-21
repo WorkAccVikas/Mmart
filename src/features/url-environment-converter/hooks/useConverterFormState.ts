@@ -1,32 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import type {
   ConversionMode,
   IConverterFormValues,
-} from "../types/url-converter";
+} from '../types/url-converter';
+import { useSyncedRef } from '@/features/shared/hooks/useSyncedRef/useSyncedRef';
 
 export const DEFAULT_URL_BY_MODE: Record<ConversionMode, string> = {
-  toLocalhost: "https://abc.com/motor/quotes?enquire=13&token=sses",
-  toRemote: "http://localhost:5173/motor/quotes?enquire=13&token=sses",
+  toLocalhost: 'https://abc.com/motor/quotes?enquire=13&token=sses',
+  toRemote: 'http://localhost:5173/motor/quotes?enquire=13&token=sses',
 };
 
 export const DEFAULT_CONVERTER_FORM_VALUES = {
-  mode: "toLocalhost",
+  mode: 'toLocalhost',
   url: DEFAULT_URL_BY_MODE.toLocalhost,
-  base: "motor",
-  port: "5173",
-  domain: "abc.com",
+  base: 'motor',
+  port: '5173',
+  domain: 'abc.com',
   basePathIncluded: true,
-  secondBasePath: "flw",
+  secondBasePath: 'flw',
 } as const satisfies IConverterFormValues;
 
 export const EMPTY_CONVERTER_FORM_VALUES = {
-  mode: "toLocalhost",
-  url: "",
-  base: "",
-  port: "",
-  domain: "",
+  mode: 'toLocalhost',
+  url: '',
+  base: '',
+  port: '',
+  domain: '',
   basePathIncluded: true,
-  secondBasePath: "",
+  secondBasePath: '',
 } as const satisfies IConverterFormValues;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -44,7 +45,9 @@ const CONVERTER_FORM_VALUES = EMPTY_CONVERTER_FORM_VALUES;
  * nothing about the conversion logic itself — that stays in
  * useUrlEnvironmentConverter.
  */
-export function useConverterFormState() {
+export function useConverterFormState(onModeChange: () => void) {
+  const onModeChangeRef = useSyncedRef(onModeChange);
+
   const [mode, setMode] = useState<ConversionMode>(CONVERTER_FORM_VALUES.mode);
   const [url, setUrl] = useState<string>(CONVERTER_FORM_VALUES.url);
   const [base, setBase] = useState<string>(CONVERTER_FORM_VALUES.base);
@@ -59,7 +62,14 @@ export function useConverterFormState() {
 
   useEffect(() => {
     setUrl(CONVERTER_FORM_VALUES.url);
-  }, [mode]);
+    setBase(CONVERTER_FORM_VALUES.base);
+    setPort(CONVERTER_FORM_VALUES.port);
+    setDomain(CONVERTER_FORM_VALUES.domain);
+    setBasePathIncluded(CONVERTER_FORM_VALUES.basePathIncluded);
+    setSecondBasePath(CONVERTER_FORM_VALUES.secondBasePath);
+
+    onModeChangeRef.current();
+  }, [mode, onModeChangeRef]);
 
   return {
     mode,
