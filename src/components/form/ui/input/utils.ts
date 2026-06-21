@@ -17,7 +17,8 @@ function isSupportedInputType(
 export function getInputAutoComplete({
   type = 'text',
   autoComplete,
-  disableAutocomplete = import.meta.env.DEV,
+  // disableAutocomplete = import.meta.env.DEV,
+  disableAutocomplete = import.meta.env.PROD,
   //   disableAutocomplete = false,
 }: GetAutocompleteOptions): string | undefined {
   // Explicit prop always wins
